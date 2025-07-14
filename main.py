@@ -31,3 +31,9 @@ def check_collisions():
 def game_over():
     # Logic to handle game over conditions
     pass
+
+window = Tk()
+window.title("Snake Game")
+window.resizable(False, False)
+
+window.mainloop()
