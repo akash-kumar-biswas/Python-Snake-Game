@@ -32,17 +32,59 @@ class Food:    # Represents the food in the game. Handle the random generation o
 
         canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag='food')
 
-def next_turn():
+def next_turn(snake, food):
     # Logic to determine the next turn for the snake
-    pass
+    x, y = snake.coordinates[0]
+
+    if direction == 'up':
+        y -= SPACE_SIZE
+    elif direction == 'down':
+        y += SPACE_SIZE
+    elif direction == 'left':
+        x -= SPACE_SIZE
+    elif direction == 'right':
+        x += SPACE_SIZE
+
+    snake.coordinates.insert(0, (x, y)) 
+    square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag='snake')
+    snake.square.insert(0, square)
+
+    if x == food.coordinates[0] and y == food.coordinates[1]:  # Check if snake eats the food
+        global score
+        score += 1   
+        label.config(text="Score:{}".format(score))
+        canvas.delete('food')
+        food = Food()  
+    else:  # If food is not eaten, remove the last segment of the snake   
+        del snake.coordinates[-1]  
+        canvas.delete(snake.square[-1]) 
+        del snake.square[-1]
+
+    if check_collisions(snake):  
+        game_over()
+    else:
+        window.after(GAME_SPEED, next_turn, snake, food)
 
 def change_direction(new_direction):
     # Logic to change the direction of the snake
-    pass
+    global direction
 
-def check_collisions():
+    if new_direction == 'left' and direction != 'right':
+        direction = new_direction
+    elif new_direction == 'right' and direction != 'left':
+        direction = new_direction
+    elif new_direction == 'up' and direction != 'down':
+        direction = new_direction
+    elif new_direction == 'down' and direction != 'up':
+        direction = new_direction
+
+def check_collisions(snake):
     # Logic to check for collisions with walls or food
-    pass
+    x, y = snake.coordinates[0]
+    if x < 0 or x >= GAME_WIDTH or y < 0 or y >= GAME_HEIGHT:
+        return True
+    
+    
 
 def game_over():
     # Logic to handle game over conditions
@@ -72,7 +114,15 @@ x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")  # Set the window size and position
+
+window.bind('<Left>', lambda event: change_direction('left'))
+window.bind('<Right>', lambda event: change_direction('right'))
+window.bind('<Up>', lambda event: change_direction('up'))
+window.bind('<Down>', lambda event: change_direction('down'))
+
 snake = Snake()
 food = Food()
+
+next_turn(snake, food)
 
 window.mainloop()
