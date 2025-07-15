@@ -11,7 +11,17 @@ FOOD_COLOR = "#00FF00"
 BACKGROUND_COLOR = "#000000"
 
 class Snake:   # Represents the snake in the game. Handles snake position, movement and growth.
-    pass
+    def __init__(self):
+        self.body_size = BODY_PARTS
+        self.coordinates = []
+        self.square = []
+
+        for i in range(BODY_PARTS):
+            self.coordinates.append([0, 0])  # Initial position of the snake
+        
+        for x, y in self.coordinates:
+            square = canvas.create_rectangle(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=SNAKE_COLOR, tag='snake')
+            self.square.append(square)
 
 class Food:    # Represents the food in the game. Handle the random generation of food.
     def __init__(self):
