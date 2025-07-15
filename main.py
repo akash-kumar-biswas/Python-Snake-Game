@@ -3,12 +3,12 @@ import random
 
 GAME_WIDTH = 600
 GAME_HEIGHT = 400
-GAME_SPEED = 100  # milliseconds
+GAME_SPEED = 120  # milliseconds
 SPACE_SIZE = 20 # Size of each space in the grid (20x20 px)
 BODY_PARTS = 3  # Initial length of the snake
-SNAKE_COLOR = "#B40583"
-FOOD_COLOR = "#00FF00"
-BACKGROUND_COLOR = "#000000"
+SNAKE_COLOR = "#07ABC8"
+FOOD_COLOR = "#AE04FD"
+BACKGROUND_COLOR = "#004D17"
 
 class Snake:   # Represents the snake in the game. Handles snake position, movement and growth.
     def __init__(self):
@@ -91,6 +91,8 @@ def check_collisions(snake):
 
 def game_over():
     # Logic to handle game over conditions
+    canvas.delete(ALL)
+    canvas.create_text(canvas.winfo_width()/2, canvas.winfo_height()/2, font=('Arial', 30), text="Game Over",  fill="#C70909", tag='game_over')
     
 
 window = Tk()
