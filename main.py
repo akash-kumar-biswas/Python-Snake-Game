@@ -84,11 +84,14 @@ def check_collisions(snake):
     if x < 0 or x >= GAME_WIDTH or y < 0 or y >= GAME_HEIGHT:
         return True
     
-    
+    for body_part in snake.coordinates[1:]:  # Check if snake collides with itself
+        if x == body_part[0] and y == body_part[1]:
+            return True
+    return False
 
 def game_over():
     # Logic to handle game over conditions
-    pass
+    
 
 window = Tk()
 window.title("Snake Game")
