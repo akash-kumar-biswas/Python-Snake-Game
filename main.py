@@ -14,7 +14,13 @@ class Snake:   # Represents the snake in the game. Handles snake position, movem
     pass
 
 class Food:    # Represents the food in the game. Handle the random generation of food.
-    pass
+    def __init__(self):
+        x = random.randint(0, (GAME_WIDTH - SPACE_SIZE) // SPACE_SIZE) * SPACE_SIZE
+        y = random.randint(0, (GAME_HEIGHT - SPACE_SIZE) // SPACE_SIZE) * SPACE_SIZE
+
+        self.coordinates = [x, y]
+
+        canvas.create_oval(x, y, x + SPACE_SIZE, y + SPACE_SIZE, fill=FOOD_COLOR, tag='food')
 
 def next_turn():
     # Logic to determine the next turn for the snake
@@ -56,5 +62,7 @@ x = int((screen_width / 2) - (window_width / 2))
 y = int((screen_height / 2) - (window_height / 2))
 
 window.geometry(f"{window_width}x{window_height}+{x}+{y}")  # Set the window size and position
+snake = Snake()
+food = Food()
 
 window.mainloop()
